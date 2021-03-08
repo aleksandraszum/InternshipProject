@@ -1,0 +1,45 @@
+{% load static %}
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> My notes </title>
+    <link rel="stylesheet" href="{% static 'mysite/bootstrap.min.css' %}" charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'mysite/style.css' %}" charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="d-flex flex-column h-100">
+<div class=" d-flex w-100 h-100  mx-auto flex-column">
+
+
+    <nav class=" nav py-1 justify-content-center">
+        <div class="row ">
+            <div class="col-12"><br>
+                <a href="{% url 'index' %}" class="text-reset"><h2 class=" text-center"> My notes! </h2></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="mri-container content mx-auto center-block text-center">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="mt-auto text-center">
+        Copyright © <a class=" font-weight-bold text-decoration-none text-black base-color"
+                       href="https://github.com/aleksandraszum/">
+        Aleksandra Szum </a> 2021
+    </footer>
+
+</div>
+
+
+</body>
+
+
+</html>

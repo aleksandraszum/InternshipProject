@@ -1,0 +1,41 @@
+{% extends '../base.html' %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="col-12 text-center">
+
+            {% if communicate %}
+                <p class="lead text-center">
+                    {{ communicate }}
+                </p>
+                <p class="lead">
+                    <a href="{% url 'index' %}" class="btn btn-info btn-lg">Return</a>
+                </p>
+
+            {% else %}
+
+                <p class="lead text-center">
+                    Add new note:
+                </p>
+
+                <div class="row text-center">
+                    <div class="col">
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <p>
+                                    {{ field.label_tag }}<br>
+                                    {{ field }}
+                                </p>
+                            {% endfor %}
+                            <input type="submit" class="btn btn-lg btn-secondary" value="Add"/>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock %}
