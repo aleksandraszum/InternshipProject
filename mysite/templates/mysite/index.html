@@ -3,29 +3,30 @@
 {% block content %}
 
     <div class="row">
-
         <div class="col-12 text-center">
             {% if notes %}
-                <table class="table text-center">
+                <table
+                        id="table"
+                        data-toggle="table"
+                        height="95%"
+                        class="text-center">
                     <thead>
                     <tr>
-                        <th scope="col" class="text-center">Title</th>
-                        <th scope="col" class="text-center">Created</th>
-                        <th scope="col" class="text-center">Modified</th>
+                        <th data-field="title" data-sortable="true" class="text-center">Title</th>
+                        <th data-field="created" data-sortable="true" class="text-center">Created</th>
+                        <th data-field="modified" data-sortable="true" class="text-center">Modified</th>
                     </tr>
                     </thead>
+                    <tbody>
                     {% for note in notes %}
-                        <tbody>
                         <tr>
                             <td>
                                 <button type="button" class="btn btn-info btn-lg" data-toggle="modal"
                                         data-target="#myModal{{ note.title }}">{{ note.title }}
                                 </button>
-
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal{{ note.title }}" role="dialog">
                                     <div class="modal-dialog">
-
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -36,35 +37,32 @@
                                             <div class="modal-body">
                                                 <p> {{ note.content }} </p>
                                             </div>
-
                                             <div>
                                                 <p class="lead">
-                                                    <a href="edit/{{ note.note_uuid }}" class="btn btn-info btn-lg">Edit</a>
+                                                    <a href="edit/{{ note.note_uuid }}"
+                                                       class="btn btn-info btn-lg">Edit</a>
                                                 </p>
                                                 <p class="lead">
-                                                    <a href="{% url 'add' %}" class="btn btn-info btn-lg">Show note's history</a>
+                                                    <a href="history/{{ note.note_uuid }}" class="btn btn-info btn-lg">Show
+                                                        note's
+                                                        history</a>
                                                 </p>
                                             </div>
-
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">
                                                     Close
                                                 </button>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
-
                             </td>
                             <td>{{ note.created }}</td>
                             <td>{{ note.modified }}</td>
                         </tr>
-                        </tbody>
                     {% endfor %}
+                    </tbody>
                 </table>
-
-
             {% else %}
                 <div class="col-12 text-center"><h4>No note!</h4></div>
             {% endif %}
@@ -73,14 +71,12 @@
                     <a href="{% url 'add' %}" class="btn btn-info btn-lg">Add new note</a>
                 </p>
             </div>
-
+            <div>
+                <p class="lead">
+                    <a href="{% url 'history' %}" class="btn btn-info btn-lg">See history from previous point.</a>
+                </p>
+            </div>
 
         </div>
-
     </div>
-
-
-
-
-
 {% endblock %}

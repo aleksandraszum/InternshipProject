@@ -1,0 +1,58 @@
+{% extends '../base.html' %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12 text-center">
+            {% if form %}
+                <div class="col">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                            </p>
+                        {% endfor %}
+                        <input type="submit" class="btn btn-lg btn-secondary" value="Show notes' history"/>
+                    </form>
+                </div>
+                </div>
+            {% else %}
+                <div class="col-12 text-center">
+                    {% if notes %}
+                        <h2>Notes' history point for data: {{ history_date }}:</h2>
+                        <table class="table text-center">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="text-center">Version</th>
+                                <th scope="col" class="text-center">Title</th>
+                                <th scope="col" class="text-center">Content</th>
+                                <th scope="col" class="text-center">Created</th>
+                                <th scope="col" class="text-center">Modified</th>
+                            </tr>
+                            </thead>
+                            {% for note in notes %}
+                                <tbody>
+                                <tr>
+                                    <td> {{ note.version }} </td>
+                                    <td> {{ note.title }} </td>
+                                    <td> {{ note.content|safe }} </td>
+                                    <td>{{ note.created }}</td>
+                                    <td>{{ note.modified }}</td>
+                                </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                        </div>
+                    {% else %}
+                        <h2>No notes' to show!</h2>
+                    {% endif %}
+            {% endif %}
+
+        <p class="lead">
+            <a href="{% url 'index' %}" class="btn btn-info btn-lg">Return</a>
+        </p>
+
+    </div>
+{% endblock %}

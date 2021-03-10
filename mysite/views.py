@@ -1,8 +1,9 @@
 from datetime import datetime
 
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
 from uuid import uuid4
-from mysite.forms import NoteForm
+from mysite.forms import NoteForm, DateHistoryForm
 from mysite.models import Note
 
 
@@ -20,16 +21,19 @@ def add(request):
             note_uuid = uuid4()
             note = Note(title=title, content=content, note_uuid=note_uuid)
             note.save()
-        return render(request, 'mysite/add.html', {'communicate': 'Successfully add new note!'})
+            return render(request, 'mysite/add.html', {'communicate': 'Successfully add new note!'})
+        else:
+            return HttpResponse(status=406)
+
     form = NoteForm()
     return render(request, 'mysite/add.html', {'form': form})
 
 
 def edit(request, note_uuid):
-    notes = list(Note.objects.filter(note_uuid=note_uuid))
-    version = [note.version for note in notes]
-    max_version = max(version)
-    note = Note.objects.get(note_uuid=note_uuid, version=max_version)
+    try:
+        note = Note.objects.get(note_uuid=note_uuid, newest_version=True)
+    except Note.DoesNotExist:
+        raise Http404
     if request.method == 'POST':
         form = NoteForm(request.POST, instance=note)
         if form.is_valid():
@@ -45,6 +49,8 @@ def edit(request, note_uuid):
             note = Note(title=title, content=content, note_uuid=note_uuid, modified=modified, version=version,
                         created=created)
             note.save()
+        else:
+            return HttpResponse(status=406)
 
         return render(request, 'mysite/edit.html',
                       {'communicate': 'Successfully edit!'})
@@ -53,8 +59,32 @@ def edit(request, note_uuid):
     return render(request, 'mysite/edit.html', {'form': form})
 
 
-def history(request, note_uuid):
-    notes = Note.objects.filter(deleted=False, newest_version=True)
-    uuid = [set((note.note_uuid for note in notes))]
-    return render(request, 'mysite/index.html', {'notes': notes})
+def delete(request, note_uuid):
+    notes = Note.objects.filter(note_uuid=note_uuid)
+    for note in notes:
+        note.deleted = True
+        note.save(update_fields=['deleted'])
+    return render(request, 'mysite/delete.html', {'communicate': 'Successfully delated the note!'} )
+
+
+def note_history(request, note_uuid):
+    try:
+        notes = Note.objects.filter(note_uuid=note_uuid)
+    except Note.DoesNotExist:
+        raise Http404
+    return render(request, 'mysite/notes_history.html', {'notes': notes})
+
+
+def history(request):
+    if request.method == 'POST':
+        form = DateHistoryForm(request.POST)
+        if form.is_valid():
+            history_date = str(form['history_data'].value())
+            notes = Note.objects.exclude(modified__gt=history_date)
+            return render(request, 'mysite/history.html', {'history_date': history_date, 'notes': notes})
+        else:
+            return HttpResponse(status=406)
+    form = DateHistoryForm()
+    return render(request, 'mysite/history.html', {'form': form})
+
 

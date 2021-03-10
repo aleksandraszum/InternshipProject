@@ -8,8 +8,11 @@
     <title> My notes </title>
     <link rel="stylesheet" href="{% static 'mysite/bootstrap.min.css' %}" charset="UTF-8">
     <link rel="stylesheet" href="{% static 'mysite/style.css' %}" charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'mysite/bootstrap-table.min.css' %}" charset="UTF-8">
+    <link rel="script" href="{% static 'mysite/bootstrap-table.min.js' %}" charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
 
 </head>
 
@@ -25,7 +28,7 @@
         </div>
     </nav>
 
-    <main class="mri-container content mx-auto center-block text-center">
+    <main class="content mx-auto center-block text-center">
         {% block content %}
         {% endblock %}
     </main>
