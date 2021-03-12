@@ -29,27 +29,34 @@ Project was created and tested in Windows Environment.
 ## Setup and running
 To run this project you need Python3. First, run Windows PowerShell and:
 - clone this repository:
-  
+
+```powershell
 git clone https://github.com/aleksandraszum/InternshipProject.git
+```
 
 - instal virtualenv:
-  
-pip install virtualenv
 
+```powershell
+pip install virtualenv
+```
 
 - install requirements:
-  
-pip install -r requirements.txt
 
+```powershell
+pip install -r requirements.txt
+```
 
 - migrate data:
 
+```powershell
 python manage.py migrate
+```
 
 - run project:
 
+```powershell
 python manage.py runserver
-
+```
 
 ### Example usage
 - Add a new note
