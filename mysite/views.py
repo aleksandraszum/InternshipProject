@@ -8,11 +8,13 @@ from mysite.models import Note
 
 
 def index(request):
+    # display all newest and not-deleted notes
     notes = Note.objects.filter(deleted=False, newest_version=True)
     return render(request, 'mysite/index.html', {'notes': notes})
 
 
 def add(request):
+    # add a new note
     if request.method == 'POST':
         form = NoteForm(request.POST)
         if form.is_valid():
@@ -30,6 +32,7 @@ def add(request):
 
 
 def edit(request, note_uuid):
+    # edit an existed note
     try:
         note = Note.objects.get(note_uuid=note_uuid, newest_version=True, deleted=False)
     except Note.DoesNotExist:
@@ -60,6 +63,7 @@ def edit(request, note_uuid):
 
 
 def delete(request, note_uuid):
+    # delete an existed note
     try:
         note = Note.objects.get(note_uuid=note_uuid, deleted=False, newest_version=True)
     except Note.DoesNotExist:
@@ -72,6 +76,7 @@ def delete(request, note_uuid):
 
 
 def note_history(request, note_uuid):
+    # display a note's history
     try:
         note = Note.objects.get(note_uuid=note_uuid, newest_version=True)
     except Note.DoesNotExist:
@@ -81,6 +86,7 @@ def note_history(request, note_uuid):
 
 
 def history(request):
+    # display an app's history
     if request.method == 'POST':
         form = DateHistoryForm(request.POST)
         if form.is_valid():

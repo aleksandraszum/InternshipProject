@@ -1,5 +1,4 @@
 import datetime
-import time
 from uuid import uuid4
 from django.test import TestCase
 from django.urls import reverse

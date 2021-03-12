@@ -3,7 +3,6 @@ from django.forms import DateInput
 
 from mysite.models import Note
 
-
 class NoteForm(forms.ModelForm):
     class Meta:
         model = Note
