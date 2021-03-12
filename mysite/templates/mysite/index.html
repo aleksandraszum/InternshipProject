@@ -47,6 +47,10 @@
                                                         note's
                                                         history</a>
                                                 </p>
+                                                <p class="lead">
+                                                    <a href="delete/{{ note.note_uuid }}"
+                                                       class="btn btn-info btn-lg">Delete the note</a>
+                                                </p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -67,13 +71,8 @@
                 <div class="col-12 text-center"><h4>No note!</h4></div>
             {% endif %}
             <div>
-                <p class="lead">
-                    <a href="{% url 'add' %}" class="btn btn-info btn-lg">Add new note</a>
-                </p>
-            </div>
-            <div>
-                <p class="lead">
-                    <a href="{% url 'history' %}" class="btn btn-info btn-lg">See history from previous point.</a>
+                <a href="{% url 'add' %}" class="btn btn-info btn-lg">Add new note</a>
+                <a href="{% url 'history' %}" class="btn btn-info btn-lg">See history from previous point</a>
                 </p>
             </div>
 

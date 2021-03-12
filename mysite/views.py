@@ -31,7 +31,7 @@ def add(request):
 
 def edit(request, note_uuid):
     try:
-        note = Note.objects.get(note_uuid=note_uuid, newest_version=True)
+        note = Note.objects.get(note_uuid=note_uuid, newest_version=True, deleted=False)
     except Note.DoesNotExist:
         raise Http404
     if request.method == 'POST':
@@ -60,18 +60,23 @@ def edit(request, note_uuid):
 
 
 def delete(request, note_uuid):
-    notes = Note.objects.filter(note_uuid=note_uuid)
+    try:
+        note = Note.objects.get(note_uuid=note_uuid, deleted=False, newest_version=True)
+    except Note.DoesNotExist:
+        raise Http404
+    notes = list(Note.objects.filter(note_uuid=note_uuid, deleted=False))
     for note in notes:
         note.deleted = True
         note.save(update_fields=['deleted'])
-    return render(request, 'mysite/delete.html', {'communicate': 'Successfully delated the note!'} )
+    return render(request, 'mysite/delete.html', {'communicate': 'Successfully deleted the note!'})
 
 
 def note_history(request, note_uuid):
     try:
-        notes = Note.objects.filter(note_uuid=note_uuid)
+        note = Note.objects.get(note_uuid=note_uuid, newest_version=True)
     except Note.DoesNotExist:
         raise Http404
+    notes = Note.objects.filter(note_uuid=note_uuid)
     return render(request, 'mysite/notes_history.html', {'notes': notes})
 
 
@@ -86,5 +91,3 @@ def history(request):
             return HttpResponse(status=406)
     form = DateHistoryForm()
     return render(request, 'mysite/history.html', {'form': form})
-
-

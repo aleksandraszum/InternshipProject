@@ -11,4 +11,4 @@ class NoteForm(forms.ModelForm):
 
 
 class DateHistoryForm(forms.Form):
-    history_data = forms.DateTimeField(label='Point of data', widget=DateInput(attrs={'type': 'date'}))
+    history_date = forms.DateTimeField(label='Point of date', widget=DateInput(attrs={'type': 'date'}))
